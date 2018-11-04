@@ -9,7 +9,7 @@ public class Ball : MonoBehaviour {
 	[SerializeField] float xPush = 2f;
 	[SerializeField] float yPush = 10f;
 	[SerializeField] AudioClip[] ballSounds = null;
-	[SerializeField] float randomPush = 0.2f;
+	[SerializeField] float randomPush = 0.3f;
 
 	//state
 	Vector2 paddleToBallVector;
@@ -56,7 +56,7 @@ public class Ball : MonoBehaviour {
 			AudioClip audioClip = ballSounds [Random.Range (0, ballSounds.Length)];
 			audioSource.PlayOneShot (audioClip);
 
-			rigidBody2D.velocity += new Vector2 (Random.Range (-randomPush, randomPush), Random.Range (-randomPush, randomPush));
+			rigidBody2D.velocity += new Vector2 (Random.Range (0, randomPush), Random.Range (0, randomPush));
 		}
 	}
 }
