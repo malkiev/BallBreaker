@@ -5,24 +5,26 @@ using UnityEngine;
 public class Ball : MonoBehaviour {
 
 	//config params
-	[SerializeField] Paddle paddle1;
+	[SerializeField] Paddle paddle1 = null;
 	[SerializeField] float xPush = 2f;
 	[SerializeField] float yPush = 10f;
-	[SerializeField] AudioClip[] ballSounds;
-
+	[SerializeField] AudioClip[] ballSounds = null;
+	[SerializeField] float randomPush = 0.2f;
 
 	//state
 	Vector2 paddleToBallVector;
-	bool ballLaunched;
+	bool ballLaunched = false;
 
 	//cached
 	AudioSource audioSource;
+	Rigidbody2D rigidBody2D;
 
 	// Use this for initialization
 	void Start () {
 		paddleToBallVector = transform.position - paddle1.transform.position;
-		ballLaunched = false;
+
 		audioSource = this.GetComponent<AudioSource> ();
+		rigidBody2D = this.GetComponent<Rigidbody2D> ();
 	}
 	
 	// Update is called once per frame
@@ -53,6 +55,8 @@ public class Ball : MonoBehaviour {
 		if (ballLaunched) {
 			AudioClip audioClip = ballSounds [Random.Range (0, ballSounds.Length)];
 			audioSource.PlayOneShot (audioClip);
+
+			rigidBody2D.velocity += new Vector2 (Random.Range (-randomPush, randomPush), Random.Range (-randomPush, randomPush));
 		}
 	}
 }
