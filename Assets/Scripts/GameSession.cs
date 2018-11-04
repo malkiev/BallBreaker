@@ -9,24 +9,35 @@ public class GameSession : MonoBehaviour {
 	[Range(0, 10)]
 	[SerializeField] float gameSpeed = 0.7f;
 	[SerializeField] int scorePerBlockDestroyed = 83;
-	[SerializeField] Text textScore = null;
 	[SerializeField] bool isAutoPlayEnabled = false;
 
 	//state
-	[SerializeField] int currentScore=0;
+	[SerializeField] int currentScore;
+
+	private static GameSession _instance;
+	public static GameSession Instance {
+		get {
+			if (_instance == null) {
+				Debug.LogWarning ("Attempted to access GameSession instance with no available instance.");//This should not happen unless I omit the script from a scene
+			}
+
+			return _instance;
+		}
+	}
 
 	void Awake()
 	{
-		int gameStatusCount = FindObjectsOfType<GameSession> ().Length;
-		if (gameStatusCount > 1) {
+		if (Instance != null && Instance != this) {
 			Destroy (gameObject);
+			print ("Duplicate GameSession self-destructing!");
 		} else {
+			_instance = this;
 			DontDestroyOnLoad (gameObject);
 		}
 	}
 
 	void Start(){
-		textScore.text = currentScore.ToString();
+		
 	}
 
 	// Update is called once per frame
@@ -40,8 +51,7 @@ public class GameSession : MonoBehaviour {
 	public void AddToScore()
 	{
 		currentScore += scorePerBlockDestroyed;
-		if(textScore != null)
-		textScore.text = currentScore.ToString();
+		print (currentScore);
 	}
 
 	public void Destroy()
@@ -56,5 +66,10 @@ public class GameSession : MonoBehaviour {
 	public bool IsAutoPlayEnabled()
 	{
 		return isAutoPlayEnabled;
+	}
+
+	public float GetScore()
+	{
+		return currentScore;
 	}
 }

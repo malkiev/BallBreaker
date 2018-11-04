@@ -51,3 +51,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59507420c0cf40e418c23492ad9b122a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  breakableBlocks: 0
